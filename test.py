@@ -71,8 +71,8 @@ def run_test(t_identifier, expected_output, source_type):
 
     # if there is output file
     if os.path.isfile(config["properties"]["output_results"]):
-        os.system("cp " + config["properties"][
-            "output_results"] + " test-cases/" + t_identifier + "/engine_output-" + source_type + ".nq")
+        extension = config["properties"]["output_results"].split(".")[-1]
+        os.system("cp " + config["properties"]["output_results"] + "test-cases/" + t_identifier + "/engine_output-" + source_type + "." + extension)
         # and expected output is true
         if expected_output:
             output_graph = ConjunctiveGraph()
