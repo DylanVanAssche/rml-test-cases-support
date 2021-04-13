@@ -1,5 +1,5 @@
 from configparser import ConfigParser, ExtendedInterpolation
-from rdflib import Graph, RDF, Namespace, compare, Literal, URIRef
+from rdflib import Graph, ConjunctiveGraph, RDF, Namespace, compare, Literal, URIRef
 from rdflib.plugins.sparql import prepareQuery
 from rdflib_hdt import HDTStore, optimize_sparql
 import mysql.connector
@@ -59,7 +59,7 @@ def test_from_source_type(source_type):
 
 
 def run_test(t_identifier, expected_output, source_type):
-    expected_output_graph = Graph()
+    expected_output_graph = ConjunctiveGraph()
 
     if os.path.isfile(config["properties"]["output_results"]):
         os.system("rm " + config["properties"]["output_results"])
@@ -75,7 +75,7 @@ def run_test(t_identifier, expected_output, source_type):
             "output_results"] + " test-cases/" + t_identifier + "/engine_output-" + source_type + ".nq")
         # and expected output is true
         if expected_output:
-            output_graph = Graph()
+            output_graph = ConjunctiveGraph()
             iso_expected = compare.to_isomorphic(expected_output_graph)
             # trying to parse the output (e.g., not valid RDF)
             try:
