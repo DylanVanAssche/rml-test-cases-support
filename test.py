@@ -26,14 +26,13 @@ def media_type_from_source(source_type):
 
 
 def get_query_for_source_type(source_type):
-    return """SELECT DISTINCT ?test_uri ?test_id WHERE { 
-        ?test_uri rdf:type <http://www.w3.org/ns/earl#TestCase> . 
+    return """SELECT DISTINCT ?test_uri ?test_id WHERE {
+        ?test_uri rdf:type <http://www.w3.org/ns/earl#TestCase> .
         ?test_uri <http://purl.org/dc/terms/identifier> ?test_id .
         ?test_uri <http://purl.org/dc/terms/hasPart> ?part .
         ?part rdf:type <http://www.w3.org/ns/dcat#Dataset> .
         ?part <http://www.w3.org/ns/dcat#distribution> ?dist .
         ?dist <http://www.w3.org/ns/dcat#mediaType> """ + media_type_from_source(source_type) + """
-        
     } ORDER BY ?test_uri"""
 
 
@@ -68,8 +67,7 @@ def run_test(t_identifier, expected_output, source_type):
     if expected_output:
         expected_output_graph.parse("./output.nq", format="nquads")
 
-    os.system(config["properties"][
-                  "engine_command"] + " > test-cases/" + t_identifier + "/engine_output-" + source_type + ".log")
+    os.system(config["properties"]["engine_command"] + " > test-cases/" + t_identifier + "/engine_output-" + source_type + ".log")
 
     # if there is output file
     if os.path.isfile(config["properties"]["output_results"]):
